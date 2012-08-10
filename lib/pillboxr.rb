@@ -94,7 +94,11 @@ module Pillboxr
   end
 
   def api_key
-    @api_key ||= YAML.load_file(File.expand_path("api_key.yml"))
+    begin
+      @api_key ||= YAML.load_file(File.expand_path("api_key.yml"))
+    rescue Errno::ENOENT => e
+      raise e, "You must create an api_key.yml file in the root directory of the project."
+    end
   end
 
   def default_path
