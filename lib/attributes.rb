@@ -182,10 +182,6 @@ module Pillboxr
       def to_s
         "&dea=" + String(@schedule)
       end
-
-      def self.schedule
-        DEA_CODES.inject({}) { |i,(k,v)| i.merge k.humanize => v }
-      end
     end
   end
 end
