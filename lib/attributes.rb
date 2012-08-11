@@ -28,6 +28,21 @@ module Pillboxr
       attributes.invert
     end
 
+    # Creates a series of class methods on Pillboxr::Attributes module
+    # that allow easy access to all the possible colors, shapes, dea codes, etc..
+    # Example:
+    #
+    # Pillboxr::Attributes.colors
+    # => [:bullet,:capsule,:clover,:diamond,:double_circle,:freeform,:gear,:heptagon,
+    #     :hexagon,:octagon,:oval,:pentagon,:rectangle,:round,:semi_circle,:square,
+    #     :tear,:trapezoid,:triangle]
+    #
+    # Available methods are colors, color_codes, shapes, shape_codes, dea_codes,
+    # and schedule_codes.
+    self.constants.each do |const|
+      self.module_eval("def self.#{const.downcase}; #{const}.keys; end")
+    end
+
     class Color
       attr_accessor :color
 
@@ -45,10 +60,6 @@ module Pillboxr
 
       def to_s
         "&color=" + String(@color)
-      end
-
-      def self.colors
-        COLORS.inject({}) { |i,(k,v)| i.merge k.humanize => v }
       end
     end
 
@@ -70,10 +81,6 @@ module Pillboxr
 
       def to_s
         "&shape=" + String(@shape)
-      end
-
-      def self.shapes
-        SHAPES.inject({}) { |i,(k,v)| i.merge k.humanize => v }
       end
     end
 

@@ -5,7 +5,6 @@ require_relative 'pill'
 require_relative 'params'
 
 module Pillboxr
-  # include Attributes
   include HTTParty
   format :xml
   base_uri 'pillbox.nlm.nih.gov'
@@ -13,7 +12,6 @@ module Pillboxr
             def parse
               body.gsub!(/^<disclaimer>.+<\/disclaimer>/, "")
               body.gsub!(/\s\&\s/, ' and ')
-              # puts body
               super
             end
           end)
