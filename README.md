@@ -29,6 +29,8 @@ Pillboxr.with({:color => :blue, :image => true}) # Get all blue pills with image
 ###### or
 
 ```ruby
+require 'pillboxr'
+
 Pillboxr.color(:blue).image(true).all # Find all blue pills in the database with images associated.
 ```
 
@@ -56,6 +58,8 @@ The hash passed to the `with` method may include any of the following parameters
 Please see specific files or the document directory for specific usage examples. Further API documentation available on the  [project homepage](http://pillbox.nlm.nih.gov/NLM_Pillbox_API_documentation_v2_2011.09.27.pdf) (PDF link)
 
 ## KNOWN BUGS
+
+* The library does not respect pagination yet.
 
 * Please note that some XML in the Pillbox API is unescaped.
 
