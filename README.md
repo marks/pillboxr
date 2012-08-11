@@ -16,25 +16,27 @@ Getting started is fairly easy:
 
 	$ gem install pillboxr
 
+Next obtain an API key and paste it into a file called `api_key.yml` in the root directory of your project. See below for directions on obtaining an API key.
+
+Finally:
+
 ```ruby
 require 'pillboxr' # You may have to require rubygems first
 
-Pillboxr.api_key = 'YOUR API KEY HERE' # See below for directions on obtaining an API key
-
-Pillboxr.with(:image => true)
+Pillboxr.with({:color => :blue, :image => true}) # Get all blue pills with images.
 ```
 
 ###### or
 
 ```ruby
-Pillboxr.image(true) # Find all pills in the database with images associated
+Pillboxr.color(:blue).image(true).all # Find all blue pills in the database with images associated.
 ```
 
-You can run the tests by typing rake in the library directory.  You may have to install some development gems prior to running the tests.
+You can run the tests by typing `rake` in the library directory.  You may have to install some development gems prior to running the tests by running `bundle install` in the library directory.
 
 ***
 
-The hash passed to the with method may include any of the following parameters:
+The hash passed to the `with` method may include any of the following parameters:
 
 ```ruby
 :color       => Symbol or Array with multiple colors (see http://pillbox.nlm.nih.gov/API-documentation.html)
