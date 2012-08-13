@@ -26,11 +26,11 @@ module Pillboxr
     end
 
     def score
-      @score.to_i == 1 ? true : false
+      Integer(@score)
     end
 
     def score?
-      @score.to_i == 1 ? true : false
+      @score.to_i > 1 ? true : false
     end
 
     def image
@@ -68,5 +68,7 @@ module Pillboxr
            "http://pillbox.nlm.nih.gov/assets/large/#{image_id}lg.jpg"]
       end
     end
+
+    alias_method :scored?, :score?
   end
 end

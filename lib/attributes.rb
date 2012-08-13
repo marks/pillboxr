@@ -194,8 +194,9 @@ module Pillboxr
         # puts "argument to method = #{score_arg}"
         @score = case score_arg
         when NilClass;   raise ScoreError
-        when TrueClass;  1
-        when FalseClass; 0
+        when TrueClass;  2
+        when FalseClass; 1
+        when Integer;    score_arg
         when Array;      raise ArgumentError, "Must be true or false."
         else raise ArgumentError, "invalid arguments."
         end
