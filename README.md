@@ -34,6 +34,13 @@ require 'pillboxr'
 Pillboxr.color(:blue).image(true).all # Find all blue pills in the database with images associated.
 ```
 
+***
+
+**Important:** *When chaining query methods you must call add the `all` method on the end of the query chain, similar to working with `ActiveRelation` in Rails so the request can be lazily evaluated.*
+
+***
+
+
 You can run the tests by typing `rake` in the library directory.  You may have to install some development gems prior to running the tests by running `bundle install` in the library directory.
 
 ***
