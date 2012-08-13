@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 require_relative 'constants'
+require 'erb'
 
 module Pillboxr
   module Attributes
@@ -225,6 +226,21 @@ module Pillboxr
 
       def to_s
         "&has_image=" + String(@image)
+      end
+    end
+
+    class Author
+      def initialize(author_arg)
+        @author = case author_arg
+        when String; author_arg
+        when Array;  raise ArgumentError, "Author can only take a single string."
+        else raise ArgumentError, "invalid arguments."
+        end
+        return self
+      end
+
+      def to_s
+        "&author=" + ERB::Util.url_encode(@author)
       end
     end
   end
