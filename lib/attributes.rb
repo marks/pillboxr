@@ -22,7 +22,8 @@ module Pillboxr
         :image_id             => :image_id,
         :setid                => :setid,
         :author               => :author,
-        :inactive_ingredients => :spl_inactive_ing }
+        :inactive_ingredients => :spl_inactive_ing,
+        :lower_limit          => :lower_limit }
     end
 
     def api_attributes
@@ -219,7 +220,7 @@ module Pillboxr
         when TrueClass;  1
         when FalseClass; 0
         when Array;      raise ArgumentError, "Must be true or false."
-        else raise ArgumentErrror, "invalid arguments."
+        else raise ArgumentError, "invalid arguments."
         end
         return self
       end
@@ -230,6 +231,8 @@ module Pillboxr
     end
 
     class Author
+      attr_accessor :author
+
       def initialize(author_arg)
         @author = case author_arg
         when String; author_arg
@@ -241,6 +244,23 @@ module Pillboxr
 
       def to_s
         "&author=" + ERB::Util.url_encode(@author)
+      end
+    end
+
+    class Lowerlimit
+      attr_accessor :lower_limit
+
+      def initialize(limit)
+        @lower_limit = case limit
+        when NilClass; raise LowerLimitError
+        when Integer;  limit
+        else raise ArgumentError, "Lower limit must be an integer."
+        end
+        return self
+      end
+
+      def to_s
+        "&lower_limit=" + String(@lower_limit)
       end
     end
   end
