@@ -144,25 +144,46 @@ module Pillboxr
       end
     end
 
-    class Imprint
-      attr_accessor :imprint
+    # class Imprint # Broken currently
+    #   attr_accessor :imprint
 
-      def initialize(imprint_arg)
-        # puts "argument to method = #{ingredient_arg}"
-        @imprint = case imprint_arg
-        when NilClass; raise ImprintError
-        when Array;    raise ArgumentError, "can only search for one imprint string at this time."
-        when String;   imprint_arg
-        when Symbol;   String(imprint_arg)
-        when Integer;  String(imprint_arg)
+    #   def initialize(imprint_arg)
+    #     # puts "argument to method = #{ingredient_arg}"
+    #     @imprint = case imprint_arg
+    #     when NilClass; raise ImprintError
+    #     when Array;    raise ArgumentError, "can only search for one imprint string at this time."
+    #     when String;   imprint_arg
+    #     when Symbol;   imprint_arg
+    #     when Integer;  imprint_arg
+    #     else raise ArgumentError, "invalid arguments."
+    #     end
+    #     return self
+    #   end
+
+    #   def to_s
+    #     "&imprint=" + String(@imprint)
+    #   end
+    # end
+
+    class Size
+      attr_accessor :size
+
+      def initialize(size_arg)
+        @size = case size_arg
+        when NilClass; raise SizeError
+        when Integer;  size_arg
+        when Float;    Integer(size_arg)
+        when String;   Integer(size_arg)
+        when Symbol;   Integer(size_arg)
         else raise ArgumentError, "invalid arguments."
         end
         return self
       end
 
       def to_s
-        "&imprint=" + String(@imprint)
+        "&size=" + String(@size)
       end
+
     end
 
 
