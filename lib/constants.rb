@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 module Pillboxr
+    RECORDS_PER_PAGE = 201
   module Attributes
     SHAPES = {
         :bullet=> :C48335,
