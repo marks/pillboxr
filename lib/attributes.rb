@@ -60,7 +60,7 @@ module Pillboxr
         return self
       end
 
-      def to_s
+      def to_param
         "&color=" + String(@color)
       end
     end
@@ -81,7 +81,7 @@ module Pillboxr
         return self
       end
 
-      def to_s
+      def to_param
         "&shape=" + String(@shape)
       end
     end
@@ -101,7 +101,7 @@ module Pillboxr
         return self
       end
 
-      def to_s
+      def to_param
         "&prodcode=" + String(@code)
       end
     end
@@ -121,7 +121,7 @@ module Pillboxr
         return self
       end
 
-      def to_s
+      def to_param
         "&dea=" + String(@schedule)
       end
     end
@@ -141,7 +141,7 @@ module Pillboxr
         return self
       end
 
-      def to_s
+      def to_param
         "&ingredient=" + String(@ingredients)
       end
     end
@@ -162,7 +162,7 @@ module Pillboxr
     #     return self
     #   end
 
-    #   def to_s
+    #   def to_param
     #     "&imprint=" + String(@imprint)
     #   end
     # end
@@ -182,7 +182,7 @@ module Pillboxr
         return self
       end
 
-      def to_s
+      def to_param
         "&size=" + String(@size)
       end
 
@@ -205,7 +205,7 @@ module Pillboxr
         return self
       end
 
-      def to_s
+      def to_param
         "&score=" + String(@score)
       end
     end
@@ -225,7 +225,7 @@ module Pillboxr
         return self
       end
 
-      def to_s
+      def to_param
         "&has_image=" + String(@image)
       end
     end
@@ -242,7 +242,7 @@ module Pillboxr
         return self
       end
 
-      def to_s
+      def to_param
         "&author=" + ERB::Util.url_encode(@author)
       end
     end
@@ -259,7 +259,7 @@ module Pillboxr
         return self
       end
 
-      def to_s
+      def to_param
         "&lower_limit=" + String(@lower_limit)
       end
     end
