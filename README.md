@@ -36,7 +36,7 @@ Pillboxr.color(:blue).image(true).all # Find all blue pills in the database with
 
 ***
 
-**Important:** *When chaining query methods you must call add the `all` method on the end of the query chain, similar to working with `ActiveRelation` in Rails so the request can be lazily evaluated.*
+**Important:** *When chaining query methods you must add the `all` method on the end of the query chain, similar to working with `ActiveRelation` in Rails, so the request can be lazily evaluated.*
 
 ***
 
@@ -59,14 +59,14 @@ The hash passed to the `with` method may include any of the following parameters
 :prodcode    => Symbol (Product Code: see http://pillbox.nlm.nih.gov/API-documentation.html)
 :image       => Boolean
 :size        => Integer for size in millimeters (currently this encompasses a range of +/- 2 mm)
-:lower_limit => Integer for which returned record to start at (currently non-functional)
+:lower_limit => Integer for which returned record to start at
 ```
 
 Please see specific files or the document directory for specific usage examples. Further API documentation available on the  [project homepage](http://pillbox.nlm.nih.gov/NLM_Pillbox_API_documentation_v2_2011.09.27.pdf) (PDF link)
 
 ## KNOWN BUGS
 
-* The library does not respect pagination yet.
+* The library allows you to request the same page repeatedly resulting in duplicate data.
 
 * Please note that some XML in the Pillbox API is unescaped.
 
