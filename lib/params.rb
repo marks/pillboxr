@@ -1,5 +1,6 @@
 module Pillboxr
   class Params < Array
+
     attr_accessor :limit
 
     def initialize(size = 0, obj = nil, module_name, &block)
@@ -20,7 +21,7 @@ module Pillboxr
     end
 
     def method_missing(method_name, *args)
-      puts "Params method missing called with #{method_name}."
+      # puts "Params method missing called with #{method_name}."
       @module_name.send(:method_missing, method_name, *args)
     end
   end
