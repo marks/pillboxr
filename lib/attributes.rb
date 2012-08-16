@@ -250,7 +250,7 @@ module Pillboxr
     class Lowerlimit
       attr_accessor :lower_limit
 
-      def initialize(limit = 0)
+      def initialize(limit = DEFAULT_LOWER_LIMIT)
         @lower_limit = case limit
         when NilClass; raise LowerLimitError
         when Integer;  limit

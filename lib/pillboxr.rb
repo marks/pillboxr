@@ -37,7 +37,7 @@ module Pillboxr
 
   def with(arguments_hash)
     @params ||= Params.new(self)
-    @params.limit = arguments_hash.delete(:lower_limit) { 1 } # assign limit to 1 if lower_limit key absent
+    @params.limit = arguments_hash.delete(:lower_limit) { DEFAULT_LOWER_LIMIT } # assign limit to 1 if lower_limit key absent
     arguments_hash.each do |k,v|
       if attributes.keys.include?(k)
         @params << symbol_to_instance(k,v)
@@ -63,7 +63,7 @@ module Pillboxr
     @params ||= Params.new(self)
     if attributes.keys.include?(method_name)
       # puts "method_missing called with #{method_name}."
-      @params.limit = (method_name.match(/limit/) ? args.first : 1)
+      @params.limit = (method_name.match(/limit/) ? args.first : DEFAULT_LOWER_LIMIT)
       @params << symbol_to_instance(method_name, args.first)
     elsif api_attributes.keys.include?(method_name)
       # puts "method_missing called with #{method_name}."
@@ -76,7 +76,6 @@ module Pillboxr
   private
   def init_objects(hash)
     pills = Pills.new(hash['Pills'], @params)
-    # pills.define_singleton_method(:record_count) { hash['Pills']['record_count'].to_i }
     puts "#{pills.record_count} records retrieved."
     if Integer(hash['Pills']['record_count']) == 1
       pills << Pill.new(hash['Pills']['pill'])
