@@ -35,10 +35,11 @@ module Pillboxr
     end
   end
 
-  def with(arguments_hash)
-    @params ||= Params.new(self)
-    @params.limit = arguments_hash.delete(:lower_limit) { DEFAULT_LOWER_LIMIT } # assign limit to 1 if lower_limit key absent
-    arguments_hash.each do |k,v|
+  def with(query_hash)
+    # set lower_limit to DEFAULT_LOWER_LIMIT if query_hash does not contain lower_limit
+    @params ||= Params.new(self, query_hash.delete(:lower_limit) { DEFAULT_LOWER_LIMIT })
+
+    query_hash.each do |k,v|
       if attributes.keys.include?(k)
         @params << symbol_to_instance(k,v)
       elsif api_attributes.keys.include?(k)
@@ -60,7 +61,7 @@ module Pillboxr
   end
 
   def method_missing(method_name, *args, &block) # :nodoc:
-    @params ||= Params.new(self)
+    @params ||= Params.new(self, DEFAULT_LOWER_LIMIT)
     if attributes.keys.include?(method_name)
       # puts "method_missing called with #{method_name}."
       @params.limit = (method_name.match(/limit/) ? args.first : DEFAULT_LOWER_LIMIT)

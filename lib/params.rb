@@ -3,8 +3,9 @@ module Pillboxr
 
     attr_accessor :limit
 
-    def initialize(size = 0, obj = nil, module_name, &block)
+    def initialize(size = 0, obj = nil, module_name, limit, &block)
       @module_name = module_name
+      @limit = limit
       super(size, obj, &block)
     end
 
