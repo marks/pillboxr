@@ -24,9 +24,9 @@ module Pillboxr
     rescue MultiXml::ParseError => e
       if e.message == "The document \"No records found\" does not have a valid root"
         puts "0 records retrieved."
-        pills = []
-        pills.define_singleton_method(:record_count) { 0 }
-        return pills
+        result = []
+        result.define_singleton_method(:record_count) { 0 }
+        return result
       else
         raise
       end
@@ -75,17 +75,10 @@ module Pillboxr
   end
 
   private
-  def init_objects(hash)
-    pills = Pills.new(hash['Pills'], @params)
-    puts "#{pills.record_count} records retrieved."
-    if Integer(hash['Pills']['record_count']) == 1
-      pills << Pill.new(hash['Pills']['pill'])
-    else
-      hash['Pills']['pill'].each do |pill|
-        pills << Pill.new(pill)
-      end
-    end
-    return pills
+  def init_objects(api_response)
+    result = Result.new(api_response, @params)
+    puts "#{result.record_count} records retrieved."
+    return result
   end
 
   def symbol_to_instance(symbol, value)
