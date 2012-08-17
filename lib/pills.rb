@@ -16,7 +16,9 @@ module Pillboxr
           @pages = Array.new(ary[0] + 1) { |i| Page.new(page_number == i, i)}
         end
       end
+
       @query_params = params.dup unless params.empty?
+
       @page = @pages.each.tap do |enum| # @page is an enumerator for the @pages array
         enum.instance_exec do
           def inspect
