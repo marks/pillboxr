@@ -27,10 +27,6 @@ module Pillboxr
            inspect
           end
 
-          def get
-            puts self.class
-          end
-
           def respond_to_missing?(method_name, include_private = false)
             self.peek.respond_to?(method_name.to_sym)
           end
