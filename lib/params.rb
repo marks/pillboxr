@@ -17,6 +17,11 @@ module Pillboxr
       @module_name.send(:complete, concatenate)
     end
 
+    def <<(item)
+      @limit = item.lower_limit if item.respond_to?(:lower_limit)
+      super
+    end
+
     def respond_to_missing(method_name, include_private = false) # :nodoc:
       @module_name.send(:respond_to_missing, method_name, include_private)
     end
