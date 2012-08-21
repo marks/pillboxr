@@ -2,6 +2,7 @@
 module Pillboxr
     RECORDS_PER_PAGE    = 201
     DEFAULT_LOWER_LIMIT = 1
+    BASE_URI = 'pillbox.nlm.nih.gov'
   module Attributes
     SHAPES = {
         :bullet=> :C48335,

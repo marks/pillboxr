@@ -9,6 +9,9 @@ module Pillboxr
       puts "params.limit = #{params.limit}"
       page_number = Integer(params.limit / RECORDS_PER_PAGE )
       @record_count = Integer(api_response['Pills']['record_count'])
+
+      puts "#{@record_count} records retrieved."
+
       if @record_count == 1
         pills << Pill.new(api_response['Pills']['pill'])
       else

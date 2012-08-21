@@ -1,26 +1,17 @@
 # -*- encoding: utf-8 -*-
-require 'httparty'
+
 require_relative 'extensions'
 require_relative 'result'
 require_relative 'pill'
 require_relative 'params'
+require_relative 'request'
 
 module Pillboxr
-  include HTTParty
-  format :xml
-  base_uri 'pillbox.nlm.nih.gov'
-  parser(Class.new(HTTParty::Parser) do
-            def parse
-              body.gsub!(/^<disclaimer>.+<\/disclaimer>/, "")
-              body.gsub!(/\s\&\s/, ' and ')
-              super
-            end
-          end)
 
   def complete(remainder_path, params = @params)
     puts "path = #{default_path + remainder_path}"
     begin
-      return init_objects(get(default_path + remainder_path), params)
+      return Result.new(Request.new(params).perform)
     rescue MultiXml::ParseError => e
       if e.message == "The document \"No records found\" does not have a valid root"
         puts "0 records retrieved."
@@ -75,11 +66,6 @@ module Pillboxr
   end
 
   private
-  def init_objects(api_response, params)
-    result = Result.new(api_response, params)
-    puts "#{result.record_count} records retrieved."
-    return result
-  end
 
   def symbol_to_instance(symbol, value)
     klass = String(symbol).gsub(/_/, "").capitalize
