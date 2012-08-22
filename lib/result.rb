@@ -3,33 +3,51 @@ module Pillboxr
 
     attr_accessor :record_count, :pages
 
-    def initialize(api_response, params = Params.new(Pillboxr, DEFAULT_LOWER_LIMIT))
-      @pages = Pages.new
+    def initialize(api_response)
+      initial_page_number = Integer(api_response.query.params.limit / RECORDS_PER_PAGE )
+      @record_count = Integer(api_response.body['Pills']['record_count'])
+
+      puts "#{@record_count} records available. #{RECORDS_PER_PAGE} records retrieved."
+
+      @pages = initialize_pages_array(api_response, initial_page_number)
+      @pages[initial_page_number].send(:pills=, self.class.parse_pills(api_response))
+      return self
+    end
+
+    def self.subsequent(api_response)
+      return parse_pills(api_response)
+    end
+
+    def self.parse_pills(api_response)
       pills = []
-      puts "params.limit = #{params.limit}"
-      page_number = Integer(params.limit / RECORDS_PER_PAGE )
-      @record_count = Integer(api_response['Pills']['record_count'])
-
-      puts "#{@record_count} records retrieved."
-
       if @record_count == 1
-        pills << Pill.new(api_response['Pills']['pill'])
+        pills << Pill.new(api_response.body['Pills']['pill'])
       else
-        api_response['Pills']['pill'].each do |pill|
+        api_response.body['Pills']['pill'].each do |pill|
           pills << Pill.new(pill)
         end
       end
-      @record_count.divmod(RECORDS_PER_PAGE).tap do |ary|
+      return pills
+    end
+
+    def initialize_pages_array(api_response, initial_page_number)
+      record_count.divmod(RECORDS_PER_PAGE).tap do |ary|
         if ary[1] == 0
-          @pages = Pages.new(ary[0]) { |i| Page.new(false, false, i, [], params.dup) }
-          @pages[page_number] = Page.new(true, true, page_number, pills, params.dup)
+          return Pages.new(ary[0]) do |i|
+            page_params = api_response.query.params.dup
+            page_params.delete_if { |param| param.respond_to?(:lower_limit)}
+            page_params << Attributes::Lowerlimit.new(i * RECORDS_PER_PAGE)
+            Page.new(i == initial_page_number, i == initial_page_number, i, [], page_params)
+          end
         else
-          @pages = Pages.new(ary[0] + 1) { |i| Page.new(false, false, i, [], params.dup)}
-          @pages[page_number] = Page.new(true, true, page_number, pills, params.dup)
+          return Pages.new(ary[0] + 1) do |i|
+            page_params = api_response.query.params.dup
+            page_params.delete_if { |param| param.respond_to?(:lower_limit)}
+            page_params << Attributes::Lowerlimit.new(i * RECORDS_PER_PAGE)
+            Page.new(i == initial_page_number, i == initial_page_number, i, [], page_params)
+          end
         end
       end
-
-      return self
     end
 
     def inspect
@@ -45,10 +63,11 @@ module Pillboxr
     end
 
     alias_method :to_s, :inspect
+    private :initialize_pages_array
 
     class Pages
       extend Forwardable
-      def_delegators :@data, :<<, :size, :each, :include?, :empty?, :count, :join, :first, :last, :[], :[]=
+      def_delegators :@data, :<<, :size, :each, :include?, :empty?, :count, :join, :first, :last, :[], :[]=, :inject
 
       def initialize(size = 0, obj = nil, &block)
         @data = Array.new(size, obj, &block)
@@ -152,16 +171,8 @@ module Pillboxr
 
       def get
         unless self.retrieved
-          self.params << Pillboxr::Attributes::Lowerlimit.new(self.number * RECORDS_PER_PAGE)
-          puts self.params
-          puts self.number
-          if result = Pillboxr.complete(self.params.concatenate, self.params)
-            puts result.pages[self.number]
-            self.pills = result.pages[self.number].pills
-            self.retrieved = true
-          else
-            raise "Error fetching page."
-          end
+          self.pills = Result.subsequent(Request.new(self.params).perform)
+          self.retrieved = true
         end
       end
 

@@ -1,11 +1,8 @@
 module Pillboxr
   class Params < Array
 
-    attr_accessor :limit
-
-    def initialize(size = 0, obj = nil, module_name, limit, &block)
+    def initialize(size = 0, obj = nil, module_name, &block)
       @module_name = module_name
-      @limit = limit
       super(size, obj, &block)
     end
 
@@ -17,9 +14,8 @@ module Pillboxr
       @module_name.send(:complete, concatenate)
     end
 
-    def <<(item)
-      @limit = item.lower_limit if item.respond_to?(:lower_limit)
-      super
+    def limit
+      self.each {|param| return param.lower_limit if param.respond_to?(:lower_limit)}
     end
 
     def respond_to_missing(method_name, include_private = false) # :nodoc:
