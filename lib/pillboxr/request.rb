@@ -9,35 +9,35 @@ module Pillboxr
     base_uri BASE_URI
     parser(Class.new(HTTParty::Parser) do
               def parse
-                body.gsub!(/^<disclaimer>.+<\/disclaimer>/, "")
-                body.gsub!(/\s\&\s/, ' and ')
-                super
+                begin
+                  body.gsub!(/^<disclaimer>.+<\/disclaimer>/, "")
+                  body.gsub!(/\s\&\s/, ' and ')
+                  super
+                rescue MultiXml::ParseError => e
+                  if e.message == NO_RECORDS_ERROR_MESSAGE
+                    result = {'Pills' => {'pill' => [], 'record_count' => 0 }}
+                    return result
+                  elsif e.message == API_KEY_ERROR_MESSAGE
+                    raise "Invalid api_key.yml. Check format and try again."
+                  else
+                    raise
+                  end
+                end
               end
             end)
 
     attr_reader :full_path, :params, :api_response
 
-    def initialize(default_path = default_path, params)
-      @full_path = default_path + params.concatenate
-      @params = params
+    def initialize(default_path = default_path, api_params)
+      @full_path = default_path + api_params.concatenate
+      @params = api_params
       @api_response = Pillboxr::Response.new
       @api_response.query = self
     end
 
     def perform
       puts "path = #{default_path + params.concatenate}"
-      begin
-        @api_response.body = self.class.get(full_path)
-      rescue MultiXml::ParseError => e
-        if e.message == "The document \"No records found\" does not have a valid root"
-          puts "0 records retrieved."
-          result = []
-          result.define_singleton_method(:record_count) { 0 }
-          return result
-        else
-          raise
-        end
-      end
+      @api_response.body = self.class.get(full_path)
       return self.api_response
     end
 

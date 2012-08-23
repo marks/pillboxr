@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 
-require_relative 'extensions'
-require_relative 'result'
-require_relative 'pill'
-require_relative 'params'
-require_relative 'request'
+require_relative 'pillboxr/extensions'
+require_relative 'pillboxr/result'
+require_relative 'pillboxr/pill'
+require_relative 'pillboxr/params'
+require_relative 'pillboxr/request'
 
 module Pillboxr
 

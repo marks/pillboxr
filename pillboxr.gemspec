@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 require File.expand_path('../lib/pillboxr', __FILE__)
-require File.expand_path('../lib/version', __FILE__)
+require File.expand_path('../lib/pillboxr/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "pillboxr"
@@ -16,7 +16,7 @@ END
 
   s.required_rubygems_version = ">= 1.8.6"
   s.rubyforge_project         = "pillboxr"
-  
+
   s.add_dependency 'activeresource', '> 2.3.5'
 
   s.add_development_dependency "bundler", ">= 1.0.0"
