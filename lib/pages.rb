@@ -1,10 +1,13 @@
+# -*- encoding: utf-8 -*-
+require 'forwardable'
+
 module Pillboxr
   class Pages
     extend ::Forwardable
     def_delegators :@data, :<<, :size, :each, :include?, :empty?, :count, :join, :first, :last, :[], :[]=
 
     def initialize(size = 0, obj = nil, &block)
-      @data = Array.new(size, obj, &block)
+      @data = Array.new(size, &block)
     end
 
     def inspect
