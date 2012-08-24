@@ -78,7 +78,6 @@ result.pages.each { |page| all_blue_pills << page.pills }
 all_blue_pills.flatten! # all_blue_pills is now an array of all 2059 blue pills.
 ```
 
-
 You can run the tests by typing `rake` in the library directory.  You may have to install some development gems prior to running the tests by running `bundle install` in the library directory.
 
 ***
@@ -107,6 +106,8 @@ Please see specific files or the document directory for specific usage examples.
 * The library allows you to request the same page repeatedly resulting in duplicate data.
 
 * Please note that some XML in the Pillbox API is unescaped.
+
+* Please report additional bugs via [github issues](https://github.com/kgautreaux/pillboxr/issues).
 
 API provided through the generous support by the FDA in both money and resources. Work conducted by NLM at NIH.
 
