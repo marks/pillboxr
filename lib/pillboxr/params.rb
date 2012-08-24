@@ -11,8 +11,8 @@ module Pillboxr
       self.collect(&:to_param).join
     end
 
-    def all
-      @module_name.send(:complete)
+    def all(&block)
+      @module_name.send(:complete, &block)
     end
 
     def limit

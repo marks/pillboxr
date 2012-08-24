@@ -6,7 +6,7 @@ module Pillboxr
 
     attr_accessor :record_count, :pages
 
-    def initialize(api_response)
+    def initialize(api_response, &block)
       initial_page_number = Integer(api_response.query.params.limit / RECORDS_PER_PAGE )
       @record_count = Integer(api_response.body['Pills']['record_count'])
 
@@ -15,7 +15,11 @@ module Pillboxr
       @pages = initialize_pages_array(api_response, initial_page_number)
       @pages[initial_page_number].send(:pills=, self.class.parse_pills(api_response, @record_count))
       api_response.query.params.clear
-      return self
+      if block_given?
+        yield self
+      else
+        return self
+      end
     end
 
     def self.subsequent(api_response)
@@ -71,30 +75,5 @@ module Pillboxr
 
     alias_method :to_s, :inspect
     private :initialize_pages_array
-
-    Page = Struct.new(:current, :retrieved, :number, :pills, :params) do
-      # extend Pillboxr
-      def inspect
-        "<Page: current: #{current}, retrieved: #{retrieved}, number: #{number}, params: #{params}, #{pills.size} pills>"
-      end
-
-      def current?
-        self.current == true
-      end
-
-      def retrieved?
-        self.retrieved == true
-      end
-
-      def get
-        unless self.retrieved
-          self.pills = Result.subsequent(Request.new(self.params).perform)
-          self.retrieved = true
-        end
-      end
-
-      alias_method :to_s, :inspect
-      private :current=, :retrieved=, :number=, :pills=, :params=
-    end
   end
 end

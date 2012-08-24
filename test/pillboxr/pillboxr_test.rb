@@ -72,6 +72,18 @@ class TestPillboxr < MiniTest::Unit::TestCase
     end
   end
 
+  def test_with_block_form
+    VCR.use_cassette(:with_block_form) do
+      @result = Pillboxr.with({:color => :blue}) do |r|
+        r.pages.each do |page|
+          page.get unless page.retrieved?
+        end
+      end
+    end
+    @result.pages.each { |page| assert page.retrieved? }
+    assert_equal(@num_blue_color_records, @result.pages.inject(0) { |sum, page| sum + page.pills.size })
+  end
+
   def test_respond_to_missing
     VCR.use_cassette(:respond_to_missing_shape) do
       assert_equal(true, Pillboxr.respond_to?(:shape))
@@ -139,5 +151,17 @@ class TestPillboxr < MiniTest::Unit::TestCase
     VCR.use_cassette(:method_chaining) do
       assert_equal(@num_blue_records_with_image, Pillboxr.color(:blue).image(true).all.record_count)
     end
+  end
+
+  def test_method_missing_with_a_block
+    VCR.use_cassette(:method_missing_with_a_block) do
+      @result = Pillboxr.image(true).all do |r|
+        r.pages.each do |page|
+          page.get unless page.retrieved?
+        end
+      end
+    end
+    @result.pages.each { |page| assert page.retrieved? }
+    assert_equal(@num_image_records, @result.pages.inject(0) { |sum, page| sum + page.pills.size })
   end
 end

@@ -3,8 +3,9 @@ require 'forwardable'
 
 module Pillboxr
   class Pages
-    extend ::Forwardable
-    def_delegators :@data, :<<, :size, :each, :include?, :empty?, :count, :join, :first, :last, :[], :[]=
+    extend Forwardable
+    def_delegators :@data, :<<, :size, :each, :include?, :empty?, :count,
+                   :join, :first, :last, :[], :[]=, :all?, :any?, :inject
 
     def initialize(size = 0, obj = nil, &block)
       @data = Array.new(size, &block)
@@ -90,5 +91,30 @@ module Pillboxr
     end
 
     private :current_index
+  end
+
+  Page = Struct.new(:current, :retrieved, :number, :pills, :params) do
+    def inspect
+      "<Page: current: #{current}, retrieved: #{retrieved}, number: #{number}, params: #{params}, #{pills.size} pills>"
+    end
+
+    def current?
+      self.current == true
+    end
+
+    def retrieved?
+      self.retrieved == true
+    end
+
+    def get
+      unless self.retrieved
+        self.pills = Result.subsequent(Request.new(self.params).perform)
+        puts "#{self.pills.size} records retrieved."
+        self.retrieved = true
+      end
+    end
+
+    alias_method :to_s, :inspect
+    private :current=, :retrieved=, :number=, :pills=, :params=
   end
 end

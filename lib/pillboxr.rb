@@ -8,11 +8,11 @@ require_relative 'pillboxr/request'
 
 module Pillboxr
 
-  def complete(params = @params)
-    return Result.new(Request.new(params).perform)
+  def complete(params = @params, &block)
+    return Result.new(Request.new(params).perform, &block)
   end
 
-  def with(query_hash)
+  def with(query_hash, &block)
     @params ||= Params.new(self)
 
     query_hash.each do |k,v|
@@ -27,7 +27,7 @@ module Pillboxr
       end
     end
 
-    complete(@params)
+    complete(@params, &block)
   end
 
   def respond_to_missing?(method_name, include_private = false) # :nodoc:
