@@ -4,7 +4,7 @@ Pillboxr is a Ruby wrapper for the National Library of Medicine Pillbox API Serv
 
 The pillbox API provides information from the FDA about various prescription medications.
 
-The current version of this library has two forms.  The first (preferred) version does not depend on any gems except for `httparty`.  The second version depends upon `active_resource`.  This version of Pillboxr inherits from ActiveResource to perform its XML wrapping so ActiveResource 3.2.6 is a requirement for using the wrapper. This version will is deprecated and will be removed in the future.
+The current version of this library has two forms.  The first (preferred) version does not depend on any gems except for `httparty`.  The second version depends upon `active_resource`.  This version of Pillboxr inherits from ActiveResource to perform its XML wrapping so ActiveResource 3.2.6 is a requirement for using the wrapper. This version will is deprecated and will be removed in the future. It is not included in the installed gem version, but the code is available in this repository mostly for historical interest.
 
 *Note:* This library is designed for use with Ruby 1.9.3 and above, and will not work with earlier versions of Ruby.
 
