@@ -47,6 +47,8 @@ module Pillboxr
         @api_key ||= YAML.load_file(File.expand_path("api_key.yml"))
       rescue Errno::ENOENT => e
         raise e, "API key not found. You must create an api_key.yml file in the root directory of the project."
+      rescue TypeError => e
+        raise e, "api_key.yml does not contain an appropriate key."
       end
     end
 
