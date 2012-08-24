@@ -33,7 +33,7 @@ result.pages.current.pills # An array with the retrieved pill objects.
 ```ruby
 require 'pillboxr'
 
-result = Pillboxr.color(:blue).image(true).all # Get result of ject with one page of blue pills with images associated.
+result = Pillboxr.color(:blue).image(true).all # Get result of object with one page of blue pills with images associated.
 
 result.pages.current.pills # an array with the retrieved pill objects.
 ```
@@ -43,6 +43,40 @@ result.pages.current.pills # an array with the retrieved pill objects.
 **Important:** *When chaining query methods you must add the `all` method on the end of the query chain, similar to working with `ActiveRelation` in Rails, so the request can be lazily evaluated.*
 
 ***
+
+Both query methods also have block forms that allow fetching of additional result pages. For example:
+
+```ruby
+require 'pillboxr'
+
+result = Pillboxr.with({:color => :blue}) do |r|
+  r.pages.each do |page|
+    page.get unless page.retrieved?
+  end
+end
+
+all_blue_pills = []
+result.pages.each { |page| all_blue_pills << page.pills }
+
+all_blue_pills.flatten! # all_blue_pills is now an array of all 2059 blue pills.
+```
+
+###### or
+
+```ruby
+require 'pillboxr'
+
+result = Pillboxr.color(:blue).all do |r|
+  r.pages.each do |page|
+    page.get unless page.retrieved?
+  end
+end
+
+all_blue_pills = []
+result.pages.each { |page| all_blue_pills << page.pills }
+
+all_blue_pills.flatten! # all_blue_pills is now an array of all 2059 blue pills.
+```
 
 
 You can run the tests by typing `rake` in the library directory.  You may have to install some development gems prior to running the tests by running `bundle install` in the library directory.
