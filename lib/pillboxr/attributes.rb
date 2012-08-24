@@ -220,7 +220,7 @@ module Pillboxr
         when TrueClass;  1
         when FalseClass; 0
         when Array;      raise ArgumentError, "Must be true or false."
-        else raise ArgumentError, "invalid arguments."
+        else raise ArgumentError, "Invalid argument. Must be true or false."
         end
         return self
       end

@@ -23,7 +23,9 @@ Finally:
 ```ruby
 require 'pillboxr' # You may have to require rubygems first
 
-Pillboxr.with({:color => :blue, :image => true}) # Get all blue pills with images.
+result = Pillboxr.with({:color => :blue, :image => true}) # Get result object with one page of blue pills with images.
+
+result.pages.current.pills # An array with the retrieved pill objects.
 ```
 
 ###### or
@@ -31,7 +33,9 @@ Pillboxr.with({:color => :blue, :image => true}) # Get all blue pills with image
 ```ruby
 require 'pillboxr'
 
-Pillboxr.color(:blue).image(true).all # Find all blue pills in the database with images associated.
+result = Pillboxr.color(:blue).image(true).all # Get result of ject with one page of blue pills with images associated.
+
+result.pages.current.pills # an array with the retrieved pill objects.
 ```
 
 ***

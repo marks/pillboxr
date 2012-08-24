@@ -13,7 +13,6 @@ module Pillboxr
   end
 
   def with(query_hash)
-    # set lower_limit to DEFAULT_LOWER_LIMIT if query_hash does not contain lower_limit
     @params ||= Params.new(self)
 
     query_hash.each do |k,v|
@@ -27,9 +26,7 @@ module Pillboxr
         next
       end
     end
-    # request_string = "#{default_path}#{@params.join('&')}"
-    # puts "request_string = #{request_string}"
-    # complete(request_string)
+
     complete(@params)
   end
 
@@ -40,11 +37,9 @@ module Pillboxr
   def method_missing(method_name, *args, &block) # :nodoc:
     @params ||= Params.new(self)
     if attributes.keys.include?(method_name)
-      # puts "method_missing called with #{method_name}."
       @params << symbol_to_instance(method_name, args.first)
     elsif api_attributes.keys.include?(method_name)
-      # puts "method_missing called with #{method_name}."
-      with({ api_attributes.fetch(method_name) => args.first })
+      @params << symbol_to_instance(api_attributes.fetch(method_name), args.first)
     else
       super
     end

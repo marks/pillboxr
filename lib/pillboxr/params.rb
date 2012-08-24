@@ -18,7 +18,6 @@ module Pillboxr
     def limit
       if self.any? { |param| param.respond_to?(:lower_limit)}
         limit = self.select { |param| param.respond_to?(:lower_limit) }.first.lower_limit
-        puts limit
         return limit
       else
         return DEFAULT_LOWER_LIMIT
