@@ -2,6 +2,10 @@
 module Pillboxr
     RECORDS_PER_PAGE    = 201
     DEFAULT_LOWER_LIMIT = 1
+    BASE_URI = 'pillbox.nlm.nih.gov'
+    NO_RECORDS_ERROR_MESSAGE = "The document \"No records found\" does not have a valid root"
+    API_KEY_ERROR_MESSAGE = "The document \"Key does not match, you may not access this service\" does not have a valid root"
+
   module Attributes
     SHAPES = {
         :bullet=> :C48335,

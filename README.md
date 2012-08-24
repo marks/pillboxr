@@ -4,7 +4,7 @@ Pillboxr is a Ruby wrapper for the National Library of Medicine Pillbox API Serv
 
 The pillbox API provides information from the FDA about various prescription medications.
 
-The current version of this library has two forms.  The first (preferred) version does not depend on any gems except for `httparty`.  The second version depends upon `active_resource`.  This version of Pillboxr inherits from ActiveResource to perform it's XML wrapping so ActiveResource 3.2.6 is a requirement for using the wrapper. This version will be deprecated in the future. Please see the doc directory for documentation on using the library.
+The current version of this library has two forms.  The first (preferred) version does not depend on any gems except for `httparty`.  The second version depends upon `active_resource`.  This version of Pillboxr inherits from ActiveResource to perform its XML wrapping so ActiveResource 3.2.6 is a requirement for using the wrapper. This version will be deprecated in the future.
 
 *Note:* This library is designed for use with Ruby 1.9.3 and above, and will not work with earlier versions of Ruby.
 
@@ -23,7 +23,9 @@ Finally:
 ```ruby
 require 'pillboxr' # You may have to require rubygems first
 
-Pillboxr.with({:color => :blue, :image => true}) # Get all blue pills with images.
+result = Pillboxr.with({:color => :blue, :image => true}) # Get result object with one page of blue pills with images.
+
+result.pages.current.pills # An array with the retrieved pill objects.
 ```
 
 ###### or
@@ -31,7 +33,9 @@ Pillboxr.with({:color => :blue, :image => true}) # Get all blue pills with image
 ```ruby
 require 'pillboxr'
 
-Pillboxr.color(:blue).image(true).all # Find all blue pills in the database with images associated.
+result = Pillboxr.color(:blue).image(true).all # Get result of ject with one page of blue pills with images associated.
+
+result.pages.current.pills # an array with the retrieved pill objects.
 ```
 
 ***

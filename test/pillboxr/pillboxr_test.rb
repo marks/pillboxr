@@ -10,21 +10,25 @@ end
 
 class TestPillboxr < MiniTest::Unit::TestCase
   def setup
-    @num_round_shape_records = 8957
-    @num_blue_color_records = 1525
-    @num_image_records = 804
+    @num_round_shape_records = 11773
+    @num_blue_color_records = 2059
+    @num_image_records = 748
     @num_blue_records_with_image = 69
     @num_5_mm_records = 4724
     @num_mylan_records = 753
+    @request_object = Pillboxr::Request.new(Pillboxr::Params.new([Pillboxr::Attributes::Shape.new(:round)]))
   end
 
   def test_api_key
-    assert_raises(NoMethodError) { Pillboxr.api_key }
+    assert_raises(NoMethodError) { Pillboxr::Request.api_key }
+    assert_raises(NoMethodError) do
+      @request_object.api_key
+    end
   end
 
   def test_returns_the_correct_default_path
-    assert_raises(NoMethodError) { Pillboxr.default_path }
-    assert_equal("/PHP/pillboxAPIService.php?key=#{Pillboxr.send(:api_key)}", Pillboxr.send(:default_path))
+    assert_raises(NoMethodError) { @request_object.default_path }
+    assert_equal("/PHP/pillboxAPIService.php?key=#{@request_object.send(:api_key)}", @request_object.send(:default_path))
   end
 
   def test_returns_number_of_records
@@ -52,11 +56,11 @@ class TestPillboxr < MiniTest::Unit::TestCase
       Pillboxr::Attributes::SHAPES.keys.each do |shape|
         case shape
         when :gear
-          assert_empty(Pillboxr.with(:shape => shape))
+          assert_empty(Pillboxr.with(:shape => shape).pages.first.pills)
         when :heptagon
-          assert_empty(Pillboxr.with(:shape => shape))
+          assert_empty(Pillboxr.with(:shape => shape).pages.first.pills)
         else
-          refute_empty(Pillboxr.with(:shape => shape), "shape is #{shape}")
+          refute_empty(Pillboxr.with(:shape => shape).pages.first.pills, "shape is #{shape}")
         end
       end
     end
@@ -82,13 +86,13 @@ class TestPillboxr < MiniTest::Unit::TestCase
 
   def test_method_missing_with_image
     VCR.use_cassette(:method_missing_has_image) do
-      @pills_with_images = Pillboxr.image(true).all
+      @result = Pillboxr.image(true).all
     end
 
-    @pills_with_images.each do |pill|
+    @result.pages.first.pills.each do |pill|
       refute_nil(pill.image_url(:small))
     end
-    assert_equal(@num_image_records, @pills_with_images.record_count)
+    assert_equal(@num_image_records, @result.record_count)
   end
 
   def test_method_missing_with_color
@@ -118,16 +122,15 @@ class TestPillboxr < MiniTest::Unit::TestCase
 
   def test_method_missing_with_lower_limit
     VCR.use_cassette(:method_missing_with_lower_limit, :allow_playback_repeats => true) do
-      assert_equal(201, Pillboxr.shape(:round).lower_limit(202).all.size)
-
+      assert_equal(201, Pillboxr.shape(:round).lower_limit(202).all.pages.current.pills.size)
     end
   end
 
   def test_with_lower_limit
     VCR.use_cassette(:with_lower_limit, :allow_playback_repeats => true) do
-      assert_equal(201, Pillboxr.with({ :shape => :round, :lower_limit => 202 }).size)
-      first = Pillboxr.with({ :shape => :round })
-      second = Pillboxr.with({ :shape => :round, :lower_limit => 202 })
+      assert_equal(201, Pillboxr.with({ :shape => :round, :lower_limit => 202 }).pages.current.pills.size)
+      first = Pillboxr.with({ :shape => :round }).pages.current.pills
+      second = Pillboxr.with({ :shape => :round, :lower_limit => 202 }).pages.current.pills
       first.each { |p| refute_includes(second, p)}
     end
   end
