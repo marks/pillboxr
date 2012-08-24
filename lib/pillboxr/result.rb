@@ -67,7 +67,7 @@ module Pillboxr
         string << String(ivar)
         string << " = "
         string << (String(self.instance_variable_get(ivar)) || "")
-        string << ", "
+        string << ", " unless ivar == instance_variables.last
       end unless instance_variables.empty?
       string << ">"
       return string
