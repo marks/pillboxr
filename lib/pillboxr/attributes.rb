@@ -10,6 +10,7 @@ module Pillboxr
         :product_code         => :product_code,
         :schedule             => :dea_schedule_code,
         :ingredients          => :ingredients,
+        :ingredients          => :ingredient,
         :imprint              => :splimprint,
         :id                   => :spl_id,
         :ndc9                 => :ndc9,
@@ -250,7 +251,7 @@ module Pillboxr
     class Lowerlimit
       attr_accessor :lower_limit
 
-      def initialize(limit = DEFAULT_LOWER_LIMIT) # :nodoc:
+      def initialize(limit = DEFAULT_LOWER_LIMIT)
         @lower_limit = case limit
         when NilClass; raise LowerLimitError
         when Integer;  limit
@@ -259,7 +260,7 @@ module Pillboxr
         return self
       end
 
-      def to_param # :nodoc:
+      def to_param
         "&lower_limit=" + String(@lower_limit)
       end
     end
