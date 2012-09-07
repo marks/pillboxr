@@ -16,13 +16,6 @@ Rake::TestTask.new(:standalone_test) do |test|
   test.verbose = true
 end
 
-Rake::TestTask.new(:activeresource_test) do |test|
-  test.libs = []
-  test.libs << 'lib/active_resource' << 'test/pillboxr_activeresource'
-  test.pattern = 'test/pillboxr_activeresource/**/*_test.rb'
-  test.verbose = true
-end
-
 task :console do
   if Kernel.const_defined?(:Pry)
     Pry.start
@@ -32,7 +25,5 @@ task :console do
 end
 
 task :c => :console
-
-task :all => [:standalone_test, :activeresource_test]
 
 task :default => :standalone_test
