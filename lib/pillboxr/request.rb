@@ -18,7 +18,7 @@ module Pillboxr
                   result = {'Pills' => {'pill' => [], 'record_count' => 0 }}
                   return result
                 elsif e.message == API_KEY_ERROR_MESSAGE
-                  raise "Invalid api_key.yml. Check format and try again."
+                  raise "Invalid api_key. Check format and try again."
                 else
                   raise
                 end
@@ -41,8 +41,14 @@ module Pillboxr
       return self.api_response
     end
 
+    # Assign an API key to this session.
+    # @param [String] your API key in string format.
+    def self.api_key=(str)
+      @api_key = str
+    end
+
     private
-    def api_key
+    def self.api_key
       begin
         @api_key ||= YAML.load_file(File.expand_path("api_key.yml"))
       rescue Errno::ENOENT => e
@@ -53,7 +59,7 @@ module Pillboxr
     end
 
     def default_path
-      "/PHP/pillboxAPIService.php?key=#{api_key}"
+      "/PHP/pillboxAPIService.php?key=#{self.class.api_key}"
     end
   end
 end

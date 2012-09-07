@@ -2,7 +2,6 @@
 require_relative 'test_helper'
 require 'vcr'
 
-
 VCR.configure do |c|
   c.cassette_library_dir = 'test/pillboxr/fixtures/vcr_cassettes'
   c.hook_into :webmock
@@ -21,15 +20,19 @@ class TestPillboxr < MiniTest::Unit::TestCase
   end
 
   def test_api_key
-    assert_raises(NoMethodError) { Pillboxr::Request.api_key }
+    assert_raises(NoMethodError) { Pillboxr.api_key }
     assert_raises(NoMethodError) do
       @request_object.api_key
     end
+    Pillboxr.api_key = "foo"
+    assert_equal("foo", Pillboxr::Request.send(:api_key))
+    assert_raises(RuntimeError) { Pillboxr.with({:api_key => 'bar', :color => :blue}) }
+    assert_equal("bar", Pillboxr::Request.send(:api_key))
   end
 
   def test_returns_the_correct_default_path
     assert_raises(NoMethodError) { @request_object.default_path }
-    assert_equal("/PHP/pillboxAPIService.php?key=#{@request_object.send(:api_key)}", @request_object.send(:default_path))
+    assert_equal("/PHP/pillboxAPIService.php?key=#{@request_object.class.send(:api_key)}", @request_object.send(:default_path))
   end
 
   def test_returns_number_of_records

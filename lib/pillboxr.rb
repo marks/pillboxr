@@ -8,13 +8,19 @@ require_relative 'pillboxr/request'
 
 module Pillboxr
 
+  def api_key=(str)
+    Request.api_key = str
+  end
+
   # Search API for pages of pills. Also accepts a block that yields pages for iterating through.
   # @param [Hash] search parameters, see {Pillboxr::Attributes} for accepted parameters.
   # @return [Result] a {Pillboxr::Result} object that has pages of data that can be iterated through.
-  def with(query_hash, &block)
+  def with(options, &block)
     @params ||= Params.new(self)
 
-    query_hash.each do |k,v|
+    self.api_key = options.delete(:api_key)
+
+    options.each do |k,v|
       if attributes.keys.include?(k)
         @params << symbol_to_instance(k,v)
       elsif api_attributes.keys.include?(k)
