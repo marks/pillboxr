@@ -12,7 +12,7 @@ module Pillboxr
     end
 
     def all(&block)
-      @module_name.send(:complete, &block)
+      @module_name.send(:complete, self, &block)
     end
 
     def limit
@@ -24,12 +24,12 @@ module Pillboxr
       end
     end
 
-    def respond_to_missing(method_name, include_private = false) # :nodoc:
-      @module_name.send(:respond_to_missing, method_name, include_private)
+    def respond_to_missing?(method_name, include_private = false) # :nodoc:
+      @module_name.send(:respond_to?, method_name)
     end
 
     def method_missing(method_name, *args)
-      puts "Params method missing called with #{method_name}."
+      # puts "Params method missing called with #{method_name}."
       @module_name.send(:method_missing, method_name, *args)
     end
   end
