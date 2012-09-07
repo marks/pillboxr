@@ -8,10 +8,6 @@ require_relative 'pillboxr/request'
 
 module Pillboxr
 
-  def complete(params = @params, &block)
-    return Result.new(Request.new(params).perform, &block)
-  end
-
   def with(query_hash, &block)
     @params ||= Params.new(self)
 
@@ -43,6 +39,11 @@ module Pillboxr
     else
       super
     end
+  end
+
+
+  def complete(params = @params, &block)
+    return Result.new(Request.new(params).perform, &block)
   end
 
   private
