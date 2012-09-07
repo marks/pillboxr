@@ -4,7 +4,7 @@ Pillboxr is a Ruby wrapper for the National Library of Medicine Pillbox API Serv
 
 The pillbox API provides information from the FDA about various prescription medications.
 
-The current version of this library has two forms.  The first (preferred) version does not depend on any gems except for `httparty`.  The second version depends upon `active_resource`.  This version of Pillboxr inherits from ActiveResource to perform its XML wrapping so ActiveResource 3.2.6 is a requirement for using the wrapper. This version will is deprecated and will be removed in the future. It is not included in the installed gem version, but the code is available in this repository mostly for historical interest.
+Previous versions of this library required ActiveResource.  This is no longer the case.
 
 *Note:* This library is designed for use with Ruby 1.9.3 and above, and will not work with earlier versions of Ruby.
 
@@ -80,6 +80,8 @@ all_blue_pills.flatten! # all_blue_pills is now an array of all 2059 blue pills.
 
 You can run the tests by typing `rake` in the library directory.  You may have to install some development gems prior to running the tests by running `bundle install` in the library directory.
 
+You can activate a console session with the pillboxr library already loaded by typing `rake console` in the library directory.
+
 ***
 
 The hash passed to the `with` method may include any of the following parameters:
@@ -103,7 +105,7 @@ Please see specific files or the document directory for specific usage examples.
 
 ## KNOWN BUGS
 
-* The library allows you to request the same page repeatedly resulting in duplicate data.
+* Test coverage is not complete.
 
 * Please note that some XML in the Pillbox API is unescaped.
 

@@ -107,7 +107,9 @@ module Pillboxr
     end
 
     def get
-      unless self.retrieved
+      if self.retrieved
+        puts "You have already retrieved that page."
+      else
         self.pills = Result.subsequent(Request.new(self.params).perform)
         puts "#{self.pills.size} records retrieved."
         self.retrieved = true

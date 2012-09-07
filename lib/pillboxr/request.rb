@@ -8,23 +8,23 @@ module Pillboxr
     format :xml
     base_uri BASE_URI
     parser(Class.new(HTTParty::Parser) do
-              def parse
-                begin
-                  body.gsub!(/^<disclaimer>.+<\/disclaimer>/, "")
-                  body.gsub!(/\s\&\s/, ' and ')
-                  super
-                rescue MultiXml::ParseError => e
-                  if e.message == NO_RECORDS_ERROR_MESSAGE
-                    result = {'Pills' => {'pill' => [], 'record_count' => 0 }}
-                    return result
-                  elsif e.message == API_KEY_ERROR_MESSAGE
-                    raise "Invalid api_key.yml. Check format and try again."
-                  else
-                    raise
-                  end
+            def parse
+              begin
+                body.gsub!(/^<disclaimer>.+<\/disclaimer>/, "")
+                body.gsub!(/\s\&\s/, ' and ')
+                super
+              rescue MultiXml::ParseError => e
+                if e.message == NO_RECORDS_ERROR_MESSAGE
+                  result = {'Pills' => {'pill' => [], 'record_count' => 0 }}
+                  return result
+                elsif e.message == API_KEY_ERROR_MESSAGE
+                  raise "Invalid api_key.yml. Check format and try again."
+                else
+                  raise
                 end
               end
-            end)
+            end
+          end)
 
     attr_reader :full_path, :params, :api_response
 
