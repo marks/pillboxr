@@ -28,7 +28,7 @@ module Pillboxr
       @module_name.send(:respond_to?, method_name)
     end
 
-    def method_missing(method_name, *args)
+    def method_missing(method_name, *args) # :nodoc:
       # puts "Params method missing called with #{method_name}."
       @module_name.send(:method_missing, method_name, *args)
     end

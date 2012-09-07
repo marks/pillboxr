@@ -51,7 +51,7 @@ require 'pillboxr'
 
 result = Pillboxr.with({:color => :blue}) do |r|
   r.pages.each do |page|
-    page.get unless page.retrieved?
+    page.get # won't retrieve a page that is already retrieved.
   end
 end
 
@@ -68,7 +68,7 @@ require 'pillboxr'
 
 result = Pillboxr.color(:blue).all do |r|
   r.pages.each do |page|
-    page.get unless page.retrieved?
+    page.get # won't retrieve a page that is already retrieved.
   end
 end
 

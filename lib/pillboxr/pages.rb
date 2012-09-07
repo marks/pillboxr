@@ -11,7 +11,7 @@ module Pillboxr
       @data = Array.new(size, &block)
     end
 
-    def inspect
+    def inspect # :nodoc:
       string = "#<Pillboxr::Result::Pages:#{object_id} ["
       @data.each do |page|
         string << String(page)
@@ -86,7 +86,7 @@ module Pillboxr
       return page
     end
 
-    def current_index
+    def current_index # :nodoc:
       @data.index { |page| page.current }
     end
 

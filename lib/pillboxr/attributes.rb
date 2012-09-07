@@ -4,7 +4,7 @@ require 'erb'
 
 module Pillboxr
   module Attributes
-    def attributes
+    def attributes # :nodoc:
       { :color                => :splcolor,
         :shape                => :splshape,
         :product_code         => :product_code,
@@ -26,7 +26,7 @@ module Pillboxr
         :lower_limit          => :lower_limit }
     end
 
-    def api_attributes
+    def api_attributes # :nodoc:
       attributes.invert
     end
 
@@ -48,7 +48,7 @@ module Pillboxr
     class Color
       attr_accessor :color
 
-      def initialize(color_arg)
+      def initialize(color_arg) # :nodoc:
         # puts "argument to method = #{color_arg}"
         @color = case color_arg
         when NilClass;  raise ColorError
@@ -60,7 +60,7 @@ module Pillboxr
         return self
       end
 
-      def to_param
+      def to_param # :nodoc:
         "&color=" + String(@color)
       end
     end
@@ -68,7 +68,7 @@ module Pillboxr
     class Shape
       attr_accessor :shape
 
-      def initialize(shape_arg)
+      def initialize(shape_arg) # :nodoc:
         # puts "argument to method = #{shape_arg}"
         @shape = case shape_arg
         when NilClass;              raise ShapeError
@@ -81,7 +81,7 @@ module Pillboxr
         return self
       end
 
-      def to_param
+      def to_param # :nodoc:
         "&shape=" + String(@shape)
       end
     end
@@ -89,7 +89,7 @@ module Pillboxr
     class Productcode
       attr_accessor :product_code
 
-      def initialize(product_code_arg)
+      def initialize(product_code_arg) # :nodoc:
         # puts "argument to method = #{product_code_arg}"
         @code = case product_code_arg
         when NilClass;   raise ProductcodeError
@@ -101,7 +101,7 @@ module Pillboxr
         return self
       end
 
-      def to_param
+      def to_param # :nodoc:
         "&prodcode=" + String(@code)
       end
     end
@@ -109,7 +109,7 @@ module Pillboxr
     class Schedule
       attr_accessor :schedule
 
-      def initialize(schedule_code)
+      def initialize(schedule_code) # :nodoc:
         # puts "argument to method = #{schedule_code}"
         @schedule = case schedule_code
         when NilClass;                  raise ScheduleError
@@ -121,7 +121,7 @@ module Pillboxr
         return self
       end
 
-      def to_param
+      def to_param # :nodoc:
         "&dea=" + String(@schedule)
       end
     end
@@ -129,7 +129,7 @@ module Pillboxr
     class Ingredients
       attr_accessor :ingredients
 
-      def initialize(ingredient_arg)
+      def initialize(ingredient_arg) # :nodoc:
         # puts "argument to method = #{ingredient_arg}"
         @ingredients = case ingredient_arg
         when NilClass; raise IngredientError
@@ -141,7 +141,7 @@ module Pillboxr
         return self
       end
 
-      def to_param
+      def to_param # :nodoc:
         "&ingredient=" + String(@ingredients)
       end
     end
@@ -170,7 +170,7 @@ module Pillboxr
     class Size
       attr_accessor :size
 
-      def initialize(size_arg)
+      def initialize(size_arg) # :nodoc:
         @size = case size_arg
         when NilClass; raise SizeError
         when Integer;  size_arg
@@ -182,7 +182,7 @@ module Pillboxr
         return self
       end
 
-      def to_param
+      def to_param # :nodoc:
         "&size=" + String(@size)
       end
 
@@ -192,7 +192,7 @@ module Pillboxr
     class Score
       attr_accessor :score
 
-      def initialize(score_arg)
+      def initialize(score_arg) # :nodoc:
         # puts "argument to method = #{score_arg}"
         @score = case score_arg
         when NilClass;   raise ScoreError
@@ -205,7 +205,7 @@ module Pillboxr
         return self
       end
 
-      def to_param
+      def to_param # :nodoc:
         "&score=" + String(@score)
       end
     end
@@ -213,7 +213,7 @@ module Pillboxr
     class Image
       attr_accessor :image
 
-      def initialize(image_arg)
+      def initialize(image_arg) # :nodoc:
         # puts "argument to method = #{image_arg}"
         @image = case image_arg
         when NilClass;   raise ImageError
@@ -225,7 +225,7 @@ module Pillboxr
         return self
       end
 
-      def to_param
+      def to_param # :nodoc:
         "&has_image=" + String(@image)
       end
     end
@@ -233,7 +233,7 @@ module Pillboxr
     class Author
       attr_accessor :author
 
-      def initialize(author_arg)
+      def initialize(author_arg) # :nodoc:
         @author = case author_arg
         when String; author_arg
         when Array;  raise ArgumentError, "Author can only take a single string."
@@ -242,7 +242,7 @@ module Pillboxr
         return self
       end
 
-      def to_param
+      def to_param # :nodoc:
         "&author=" + ERB::Util.url_encode(@author)
       end
     end
@@ -250,7 +250,7 @@ module Pillboxr
     class Lowerlimit
       attr_accessor :lower_limit
 
-      def initialize(limit = DEFAULT_LOWER_LIMIT)
+      def initialize(limit = DEFAULT_LOWER_LIMIT) # :nodoc:
         @lower_limit = case limit
         when NilClass; raise LowerLimitError
         when Integer;  limit
@@ -259,7 +259,7 @@ module Pillboxr
         return self
       end
 
-      def to_param
+      def to_param # :nodoc:
         "&lower_limit=" + String(@lower_limit)
       end
     end

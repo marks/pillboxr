@@ -8,6 +8,9 @@ require_relative 'pillboxr/request'
 
 module Pillboxr
 
+  # Search API for pages of pills. Also accepts a block that yields pages for iterating through.
+  # @param [Hash] search parameters, see {Pillboxr::Attributes} for accepted parameters.
+  # @return [Result] a {Pillboxr::Result} object that has pages of data that can be iterated through.
   def with(query_hash, &block)
     @params ||= Params.new(self)
 
@@ -41,8 +44,7 @@ module Pillboxr
     end
   end
 
-
-  def complete(params = @params, &block)
+  def complete(params = @params, &block) # :nodoc:
     return Result.new(Request.new(params).perform, &block)
   end
 
