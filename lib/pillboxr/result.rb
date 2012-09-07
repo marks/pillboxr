@@ -38,6 +38,22 @@ module Pillboxr
       return pills
     end
 
+    def inspect
+      string = "#<Pillboxr::Result:#{object_id} "
+      instance_variables.each do |ivar|
+        string << String(ivar)
+        string << " = "
+        string << (String(self.instance_variable_get(ivar)) || "")
+        string << ", " unless ivar == instance_variables.last
+      end unless instance_variables.empty?
+      string << ">"
+      return string
+    end
+
+    alias_method :to_s, :inspect
+
+    private
+
     def initialize_pages_array(api_response, initial_page_number)
       unless record_count == 0
         record_count.divmod(RECORDS_PER_PAGE).tap do |ary|
@@ -60,20 +76,5 @@ module Pillboxr
       end
       return Pages.new(1) { |i| Page.new(true, true, i, [], api_response.query.params.dup)}
     end
-
-    def inspect
-      string = "#<Pillboxr::Result:#{object_id} "
-      instance_variables.each do |ivar|
-        string << String(ivar)
-        string << " = "
-        string << (String(self.instance_variable_get(ivar)) || "")
-        string << ", " unless ivar == instance_variables.last
-      end unless instance_variables.empty?
-      string << ">"
-      return string
-    end
-
-    alias_method :to_s, :inspect
-    private :initialize_pages_array
   end
 end
