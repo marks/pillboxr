@@ -51,7 +51,11 @@ module Pillboxr
   end
 
   def complete(params = @params, &block) # :nodoc:
-    return Result.new(Request.new(params).perform, &block)
+    begin
+      return Result.new(Request.new(params).perform, &block)
+    ensure
+      @params = Params.new(self)
+    end
   end
 
   private

@@ -23,12 +23,12 @@ class TestParams < MiniTest::Unit::TestCase
     assert_equal(300, @params.limit)
   end
 
-  def test_all_method
+  def test_get_method
     pillboxr = MiniTest::Mock.new
     result = MiniTest::Mock.new
     p = Pillboxr::Params.new(pillboxr)
     pillboxr.expect(:send,  result, [:complete, @params])
-    p.all
+    p.get
     pillboxr.verify
   end
 

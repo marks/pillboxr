@@ -96,13 +96,13 @@ class TestPillboxr < MiniTest::Unit::TestCase
 
   def test_method_missing_with_shape
     VCR.use_cassette(:method_missing_shape) do
-      assert_equal(@num_round_shape_records, Pillboxr.shape(:round).all.record_count)
+      assert_equal(@num_round_shape_records, Pillboxr.shape(:round).get.record_count)
     end
   end
 
   def test_method_missing_with_image
     VCR.use_cassette(:method_missing_has_image) do
-      @result = Pillboxr.image(true).all
+      @result = Pillboxr.image(true).get
     end
 
     @result.pages.first.pills.each do |pill|
@@ -113,32 +113,32 @@ class TestPillboxr < MiniTest::Unit::TestCase
 
   def test_method_missing_with_color
     VCR.use_cassette(:method_missing_color) do
-      assert_equal(@num_blue_color_records, Pillboxr.color(:blue).all.record_count)
+      assert_equal(@num_blue_color_records, Pillboxr.color(:blue).get.record_count)
     end
   end
 
   # def test_method_missing_with_imprint # Broken currently
   #   VCR.use_cassette(:method_missing_imprint) do
-  #     assert_equal(@num_imprint_23_records, Pillboxr.imprint(23).all.record_count)
+  #     assert_equal(@num_imprint_23_records, Pillboxr.imprint(23).get.record_count)
   #   end
   # end
 
   def test_method_missing_with_size
     VCR.use_cassette(:method_missing_size, :allow_playback_repeats => true) do
-      assert_equal(@num_5_mm_records, Pillboxr.size(5).all.record_count)
-      assert_equal(@num_5_mm_records, Pillboxr.size("5").all.record_count)
+      assert_equal(@num_5_mm_records, Pillboxr.size(5).get.record_count)
+      assert_equal(@num_5_mm_records, Pillboxr.size("5").get.record_count)
     end
   end
 
   def test_method_missing_with_author
     VCR.use_cassette(:method_missing_author) do
-      assert_equal(@num_mylan_records, Pillboxr.author("Mylan Pharmaceuticals Inc.").all.record_count)
+      assert_equal(@num_mylan_records, Pillboxr.author("Mylan Pharmaceuticals Inc.").get.record_count)
     end
   end
 
   def test_method_missing_with_lower_limit
     VCR.use_cassette(:method_missing_with_lower_limit, :allow_playback_repeats => true) do
-      assert_equal(201, Pillboxr.shape(:round).lower_limit(202).all.pages.current.pills.size)
+      assert_equal(201, Pillboxr.shape(:round).lower_limit(202).get.pages.current.pills.size)
     end
   end
 
@@ -153,13 +153,13 @@ class TestPillboxr < MiniTest::Unit::TestCase
 
   def test_method_chaining
     VCR.use_cassette(:method_chaining) do
-      assert_equal(@num_blue_records_with_image, Pillboxr.color(:blue).image(true).all.record_count)
+      assert_equal(@num_blue_records_with_image, Pillboxr.color(:blue).image(true).get.record_count)
     end
   end
 
   def test_method_missing_with_a_block
     VCR.use_cassette(:method_missing_with_a_block) do
-      @result = Pillboxr.image(true).all do |r|
+      @result = Pillboxr.image(true).get do |r|
         r.pages.each do |page|
           page.get unless page.retrieved?
         end
@@ -167,5 +167,12 @@ class TestPillboxr < MiniTest::Unit::TestCase
     end
     @result.pages.each { |page| assert page.retrieved? }
     assert_equal(@num_image_records, @result.pages.inject(0) { |sum, page| sum + page.pills.size })
+  end
+
+  def test_get_method_with_options
+    VCR.use_cassette(:get_method_with_options) do
+      @result = Pillboxr.image(true).get(page: 3)
+      assert_equal(3, @result.pages.current.number)
+    end
   end
 end

@@ -28,15 +28,15 @@ module Pillboxr
 
     attr_reader :full_path, :params, :api_response
 
-    def initialize(default_path = default_path, api_params)
-      @full_path = default_path + api_params.concatenate
+    def initialize(path = default_path, api_params)
+      @full_path = path + api_params.concatenate
       @params = api_params
       @api_response = Pillboxr::Response.new
       @api_response.query = self
     end
 
     def perform
-      puts "path = #{default_path + params.concatenate}"
+      puts "path = #{full_path}"
       @api_response.body = self.class.get(full_path)
       return self.api_response
     end

@@ -11,7 +11,10 @@ module Pillboxr
       self.collect(&:to_param).join
     end
 
-    def all(&block)
+    def get(options = {}, &block)
+      if options[:page]
+        self << Pillboxr::Attributes::Lowerlimit.new(options.fetch(:page) * RECORDS_PER_PAGE)
+      end
       @module_name.send(:complete, self, &block)
     end
 

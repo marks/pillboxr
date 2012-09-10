@@ -3,8 +3,8 @@ require_relative 'test_helper'
 
 class TestPill < MiniTest::Unit::TestCase
   def setup
-    @blue_pills = Pillboxr.color(:blue).image(true).all.pages.current.pills
-    @scored_pills = Pillboxr.score(3).all.pages.current.pills
+    @blue_pills = Pillboxr.color(:blue).image(true).get.pages.current.pills
+    @scored_pills = Pillboxr.score(3).get.pages.current.pills
   end
 
   def test_accessor_methods
