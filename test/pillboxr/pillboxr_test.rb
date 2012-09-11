@@ -124,7 +124,7 @@ class TestPillboxr < MiniTest::Unit::TestCase
   # end
 
   def test_method_missing_with_size
-    VCR.use_cassette(:method_missing_size, :allow_playback_repeats => true) do
+    VCR.use_cassette(:method_missing_size, :match_requests_on => [:body], :allow_playback_repeats => true) do
       assert_equal(@num_5_mm_records, Pillboxr.size(5).get.record_count)
       assert_equal(@num_5_mm_records, Pillboxr.size("5").get.record_count)
     end

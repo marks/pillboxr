@@ -11,6 +11,8 @@ module Pillboxr
       self.collect(&:to_param).join
     end
 
+    # finalize the query and request the results
+    # @param [Hash] options for which page to fetch
     def get(options = {}, &block)
       if options[:page]
         self << Pillboxr::Attributes::Lowerlimit.new(options.fetch(:page) * RECORDS_PER_PAGE)
