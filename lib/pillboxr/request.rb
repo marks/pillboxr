@@ -43,18 +43,39 @@ module Pillboxr
 
     # Assign an API key to this session.
     # @param [String] your API key in string format.
-    def self.api_key=(str)
-      @api_key = str
+    def self.api_key=(arg)
+      @api_key = arg
     end
 
     private
     def self.api_key
-      begin
-        @api_key ||= YAML.load_file(File.expand_path("api_key.yml"))
-      rescue Errno::ENOENT => e
-        raise e, "API key not found. You must create an api_key.yml file in the root directory of the project."
-      rescue TypeError => e
-        raise e, "api_key.yml does not contain an appropriate key."
+      case @api_key
+      when String
+        return @api_key
+      when Pathname
+        if @api_key.absolute?
+          return YAML.load_file(@api_key)
+        else
+          return YAML.load_file(@api_key.realpath)
+        end
+      when File
+        return YAML.load_file(@api_key)
+      when Object
+        begin
+          return @api_key.key
+        rescue NoMethodError => e
+          raise e, "The object passed as an argument to api_key= must respond to the 'key' method."
+        end
+      when nil
+        begin
+          return YAML.load_file(File.expand_path("api_key.yml"))
+        rescue Errno::ENOENT => e
+          raise e, "API key not found. Please create an api_key.yml file in the current working directory of the project or pass the key as an argument."
+        rescue TypeError => e
+          raise e, "The api_key.yml in this directory does not contain an appropriate key."
+        end
+      else
+        raise ArgumentError, "api_key must be one of 'String', 'Pathname', 'File', or an object that responds to the 'key' method."
       end
     end
 

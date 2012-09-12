@@ -8,8 +8,10 @@ require_relative 'pillboxr/request'
 
 module Pillboxr
 
-  def api_key=(str)
-    Request.api_key = str
+  # Assign an api_key to this session.  Delegates to Request#api_key=
+  # @param [String, Pathname, File, Object] the key itself, or a way to load the key, or an object that responds to the 'key' method.
+  def api_key=(arg)
+    Request.api_key = arg
   end
 
   # Search API for pages of pills. Also accepts a block that yields pages for iterating through.

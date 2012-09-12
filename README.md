@@ -16,7 +16,16 @@ Getting started is fairly easy:
 
 	$ gem install pillboxr
 
-Next obtain an API key and paste it into a file called `api_key.yml` in the root directory of your project. See below for directions on obtaining an API key.
+Next obtain an API key. See below for directions on obtaining an API key.  There are several ways to tell Pillboxr about your API key.  All of the following are valid:
+
+```ruby
+Pillboxr.api_key = "Your API key as a string." # simple string
+Pillboxr.api_key = Pathname.new("/path/to/yaml/or/text/file/containing/only/api/key/as/string") # absolute or relative path
+Pillboxr.api_key = File.new("/path/to/yaml/or/text/file/containing/only/api/key/as/string", "r") # file descriptor object
+Pillboxr.api_key = Object.new.tap { |obj| obj.define_singleton_method(:key) { "Your API key string" } } # object that responds to 'key' method
+```
+
+If you do not specify a key Pillboxr will try to find an api_key.yml in the current working directory and load the key from that file.
 
 Finally:
 
