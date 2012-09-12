@@ -19,6 +19,10 @@ class TestPillboxr < MiniTest::Unit::TestCase
     @request_object = Pillboxr::Request.new(Pillboxr::Params.new([Pillboxr::Attributes::Shape.new(:round)]))
   end
 
+  def teardown
+    Pillboxr.api_key = nil
+  end
+
   def test_api_key
     assert_raises(NoMethodError) { Pillboxr.api_key }
     assert_raises(NoMethodError) do
