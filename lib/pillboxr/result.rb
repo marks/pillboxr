@@ -52,10 +52,10 @@ module Pillboxr
 
     alias_method :to_s, :inspect
 
-    # Shortcut method for listing all the pills on the current page of results
+    # Shortcut method for listing all the pills currently retrieved
     # @return [Array] An array of pill objects
     def pills
-      self.pages.current.pills
+      self.pages.map { |page| page.pills }.flatten!
     end
 
     private
