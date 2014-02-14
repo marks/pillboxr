@@ -10,12 +10,12 @@ end
 
 class TestPillboxr < MiniTest::Unit::TestCase
   def setup
-    @num_round_shape_records = 11773
-    @num_blue_color_records = 2059
-    @num_image_records = 748
-    @num_blue_records_with_image = 69
-    @num_5_mm_records = 4724
-    @num_mylan_records = 753
+    @num_round_shape_records = 14275
+    @num_blue_color_records = 3035
+    @num_image_records = 11779
+    @num_blue_records_with_image = 1177
+    @num_5_mm_records = 5511
+    @num_mylan_records = 800
     @request_object = Pillboxr::Request.new(Pillboxr::Params.new([Pillboxr::Attributes::Shape.new(:round)]))
   end
 
@@ -71,6 +71,12 @@ class TestPillboxr < MiniTest::Unit::TestCase
           refute_empty(Pillboxr.with(:shape => shape).pages.first.pills, "shape is #{shape}")
         end
       end
+    end
+  end
+
+  def test_product_code
+    VCR.use_cassette(:product_code) do
+      assert_equal(1, Pillboxr.with({:product_code => "0078-0176"}).record_count)
     end
   end
 

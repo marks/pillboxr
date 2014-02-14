@@ -9,7 +9,7 @@ class TestPill < MiniTest::Unit::TestCase
 
   def test_accessor_methods
     @blue_pills.each do |pill|
-      assert_equal(:blue, pill.color)
+      assert_includes(Array(pill.color), :blue)
       assert_equal(true, pill.image?)
     end
 

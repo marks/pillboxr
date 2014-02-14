@@ -18,11 +18,19 @@ module Pillboxr
     end
 
     def color
-      Pillboxr::Attributes::COLOR_CODES[@color.to_sym]
+      Pillboxr::Attributes::COLOR_CODES.fetch(@color.to_sym) { self.colors }
+    end
+
+    def colors
+      @color.split(';').map { |str| Pillboxr::Attributes::COLOR_CODES[str.to_sym] }
     end
 
     def shape
-      Pillboxr::Attributes::SHAPE_CODES[@shape.to_sym]
+      Pillboxr::Attributes::SHAPE_CODES.fetch(@shape.to_sym) { self.shapes }
+    end
+
+    def shapes
+      @shape.split(';').map { |str| Pillboxr::Attributes::SHAPE_CODES[str.to_sym] }
     end
 
     def score
