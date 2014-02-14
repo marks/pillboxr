@@ -105,13 +105,15 @@ You can activate a console session with the pillboxr library already loaded by t
 The hash passed to the `with` method may include any of the following parameters:
 
 ```ruby
-:color        => Symbol or Array with multiple colors (see http://pillbox.nlm.nih.gov/API-documentation.html)
+:color        => Symbol (see http://pillbox.nlm.nih.gov/API-documentation.html)
+:colors       => Array with multiple colors
 :score        => Boolean
 :ingredient   => Symbol or Array with multiple ingredients (returned results include all ingredients)
 :inactive     => Symbol
 :dea          => Symbol or any of 'I, II, III, IV, V'
 :author       => String
 :shape        => Symbol (Shape or Hex)
+:shapes       => Array with multiple shapes
 :imprint      => Symbol
 :product_code => String (Product Code: see http://pillbox.nlm.nih.gov/API-documentation.html - must include the dash)
 :image        => Boolean

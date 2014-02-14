@@ -6,7 +6,9 @@ module Pillboxr
   module Attributes
     def attributes # :nodoc:
       { :color                => :splcolor,
+        :colors               => :__color_placeholder__,
         :shape                => :splshape,
+        :shapes               => :__shape_placeholder__,
         :product_code         => :product_code,
         :schedule             => :dea_schedule_code,
         :ingredients          => :ingredients,
@@ -53,7 +55,6 @@ module Pillboxr
         # puts "argument to method = #{color_arg}"
         @color = case color_arg
         when NilClass;  raise ColorError
-        when Array;     color_arg.size > 1 ? Pill::Attributes::Colors.new(color_arg) : COLORS[color_arg[0]]
         when Symbol;    COLORS.fetch(color_arg, color_arg)
         when String;    COLORS.fetch(color_arg.to_sym, color_arg.to_sym)
         else raise "invalid arguments."
@@ -66,6 +67,22 @@ module Pillboxr
       end
     end
 
+    class Colors
+      attr_accessor :colors
+
+      def initialize(color_arg)
+        @colors = []
+        color_arg.each do |c|
+          @colors << Pillboxr::Attributes::Color.new(c)
+        end
+        return self
+      end
+
+      def to_param
+        @colors.collect(&:to_param).join
+      end
+    end
+
     class Shape
       attr_accessor :shape
 
@@ -73,7 +90,6 @@ module Pillboxr
         # puts "argument to method = #{shape_arg}"
         @shape = case shape_arg
         when NilClass;              raise ShapeError
-        when Array;                 shape_arg.size > 1 ? Pill::Attributes::Shapes.new(color_arg) : SHAPES[shape_arg[0]]
         when /^([Cc]{1}\d{5})+/;    shape_arg # valid hex
         when Symbol;                SHAPES.fetch(shape_arg, shape_arg)
         when String;                SHAPES.fetch(shape_arg.to_sym, shape_arg.to_sym)
@@ -84,6 +100,23 @@ module Pillboxr
 
       def to_param # :nodoc:
         "&shape=" + String(@shape)
+      end
+    end
+
+    class Shapes
+      attr_accessor :shapes
+
+      def initialize(shape_arg)
+        @shapes = []
+        
+        shape_arg.each do |s|
+          @shapes << Pillboxr::Attributes::Shape.new(s)
+        end
+        return self
+      end
+
+      def to_param
+        @shapes.collect(&:to_param).join
       end
     end
 
