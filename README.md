@@ -105,18 +105,18 @@ You can activate a console session with the pillboxr library already loaded by t
 The hash passed to the `with` method may include any of the following parameters:
 
 ```ruby
-:color       => Symbol or Array with multiple colors (see http://pillbox.nlm.nih.gov/API-documentation.html)
-:score       => Boolean
-:ingredient  => Symbol or Array with multiple ingredients (returned results include all ingredients)
-:inactive    => Symbol
-:dea         => Symbol or any of 'I, II, III, IV, V'
-:author      => String
-:shape       => Symbol (Shape or Hex)
-:imprint     => Symbol
-:prodcode    => Symbol (Product Code: see http://pillbox.nlm.nih.gov/API-documentation.html)
-:image       => Boolean
-:size        => Integer for size in millimeters (currently this encompasses a range of +/- 2 mm)
-:lower_limit => Integer for which returned record to start at
+:color        => Symbol or Array with multiple colors (see http://pillbox.nlm.nih.gov/API-documentation.html)
+:score        => Boolean
+:ingredient   => Symbol or Array with multiple ingredients (returned results include all ingredients)
+:inactive     => Symbol
+:dea          => Symbol or any of 'I, II, III, IV, V'
+:author       => String
+:shape        => Symbol (Shape or Hex)
+:imprint      => Symbol
+:product_code => String (Product Code: see http://pillbox.nlm.nih.gov/API-documentation.html - must include the dash)
+:image        => Boolean
+:size         => Integer for size in millimeters (currently this encompasses a range of +/- 2 mm)
+:lower_limit  => Integer for which returned record to start at
 ```
 
 Please see specific files or the document directory for specific usage examples. Further API documentation available on the  [project homepage](http://pillbox.nlm.nih.gov/NLM_Pillbox_API_documentation_v2_2011.09.27.pdf) (PDF link)
