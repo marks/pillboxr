@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.name        = "pillboxr"
   s.version     = Pillboxr::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Keith Gautreaux', 'David Hale', 'Darius Roberts']
+  s.authors     = ['Keith Gautreaux', 'David Hale', 'Darius Roberts', 'Mark Silverberg']
   s.email       = ['keith.gautreaux@gmail.com']
   s.homepage    = "http://rubygems.org/gems/pillboxr"
   s.summary     = "Access the NLM Pillbox API using Ruby."
@@ -25,7 +25,7 @@ END
 
   s.add_development_dependency "bundler", "~> 1.0.0"
   s.add_development_dependency 'webmock', '~>1.8.8'
-  s.add_development_dependency 'vcr', '~> 2.2.4'
+  s.add_development_dependency 'vcr', '~> 2.4.0'
   s.add_development_dependency 'yard', '~> 0.8.2.1'
   s.add_development_dependency 'redcarpet', '~> 2.1.1'
 
