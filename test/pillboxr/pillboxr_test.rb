@@ -59,6 +59,16 @@ class TestPillboxr < MiniTest::Unit::TestCase
     end
   end
 
+  def test_multiple_colors
+    VCR.use_cassette(:multiple_colors) do
+      r = Pillboxr.with({color: [:blue, :green]}).pages.current.pills
+      r.each do |pill|
+        assert_includes(pill.color, :blue)
+        assert_includes(pill.color, :green)
+      end
+    end
+  end
+
   def test_all_valid_shapes
     VCR.use_cassette(:all_valid_shapes) do
       Pillboxr::Attributes::SHAPES.keys.each do |shape|

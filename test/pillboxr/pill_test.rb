@@ -7,9 +7,21 @@ class TestPill < MiniTest::Unit::TestCase
     @scored_pills = Pillboxr.score(3).get.pages.current.pills
   end
 
+  def test_color_returns_array
+    @blue_pills.each do |pill|
+      assert_instance_of(Array, pill.color)
+    end
+  end
+
+  def test_shape_returns_array
+    @scored_pills.each do |pill|
+      assert_instance_of(Array, pill.shape)
+    end
+  end
+
   def test_accessor_methods
     @blue_pills.each do |pill|
-      assert_includes(Array(pill.color), :blue)
+      assert_includes(pill.color, :blue)
       assert_equal(true, pill.image?)
     end
 
