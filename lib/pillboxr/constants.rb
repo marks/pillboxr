@@ -4,6 +4,7 @@ module Pillboxr
     DEFAULT_LOWER_LIMIT = 1
     BASE_URI = 'pillbox.nlm.nih.gov'
     NO_RECORDS_ERROR_MESSAGE = "The document \"No records found\" does not have a valid root"
+    NO_RECORDS_RESPONSE = "No records found"
     API_KEY_ERROR_MESSAGE = "The document \"Key does not match, you may not access this service\" does not have a valid root"
 
   module Attributes

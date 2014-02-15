@@ -14,7 +14,7 @@ module Pillboxr
                 body.gsub!(/\s\&\s/, ' and ')
                 super
               rescue MultiXml::ParseError => e
-                if e.message == NO_RECORDS_ERROR_MESSAGE
+                if e.message == NO_RECORDS_ERROR_MESSAGE or body == NO_RECORDS_RESPONSE
                   result = {'Pills' => {'pill' => [], 'record_count' => 0 }}
                   return result
                 elsif e.message == API_KEY_ERROR_MESSAGE
