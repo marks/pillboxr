@@ -1,5 +1,7 @@
 # Pillboxr
 
+[![Gem Version](https://badge.fury.io/rb/pillboxr.png)](http://badge.fury.io/rb/pillboxr)
+
 Pillboxr is a Ruby wrapper for the National Library of Medicine Pillbox API Service located at [http://pillbox.nlm.nih.gov](http://pillbox.nlm.nih.gov).
 
 The pillbox API provides information from the FDA about various prescription medications.
