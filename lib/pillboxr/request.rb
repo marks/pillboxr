@@ -11,7 +11,7 @@ module Pillboxr
             def parse
               begin
                 body.gsub!(/^<disclaimer>.+<\/disclaimer>/, "")
-                body.gsub!(/\s\&\s/, ' and ')
+                body.gsub!(/\&/, '&amp;')
                 super
               rescue MultiXml::ParseError => e
                 if e.message == NO_RECORDS_ERROR_MESSAGE or body == NO_RECORDS_RESPONSE
