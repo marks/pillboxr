@@ -7,7 +7,7 @@ module Pillboxr
     attr_accessor :record_count, :pages
 
     def initialize(api_response, &block)
-      initial_page_number = Integer(api_response.query.params.limit / RECORDS_PER_PAGE )
+      initial_page_number = Integer(api_response.query.params.limit / Pillboxr.config.records_per_page )
       @record_count = Integer(api_response.body['Pills']['record_count'])
 
       puts "#{@record_count} records available. #{api_response.body['Pills']['pill'].size} records retrieved."
@@ -23,7 +23,7 @@ module Pillboxr
     end
 
     def self.subsequent(api_response)
-      return parse_pills(api_response, RECORDS_PER_PAGE)
+      return parse_pills(api_response, Pillboxr.config.records_per_page)
     end
 
     def self.parse_pills(api_response, record_count)
@@ -62,19 +62,19 @@ module Pillboxr
 
     def initialize_pages_array(api_response, initial_page_number)
       unless record_count == 0
-        record_count.divmod(RECORDS_PER_PAGE).tap do |ary|
+        record_count.divmod(Pillboxr.config.records_per_page).tap do |ary|
           if ary[1] == 0
             return Pages.new(ary[0]) do |i|
               page_params = api_response.query.params.dup
               page_params.delete_if { |param| param.respond_to?(:lower_limit)}
-              page_params << Attributes::Lowerlimit.new(i * RECORDS_PER_PAGE)
+              page_params << Attributes::Lowerlimit.new(i * Pillboxr.config.records_per_page)
               Page.new(i == initial_page_number, i == initial_page_number, i, [], page_params)
             end
           else
             return Pages.new(ary[0] + 1) do |i|
               page_params = api_response.query.params.dup
               page_params.delete_if { |param| param.respond_to?(:lower_limit)}
-              page_params << Attributes::Lowerlimit.new(i * RECORDS_PER_PAGE)
+              page_params << Attributes::Lowerlimit.new(i * Pillboxr.config.records_per_page)
               Page.new(i == initial_page_number, i == initial_page_number, i, [], page_params)
             end
           end

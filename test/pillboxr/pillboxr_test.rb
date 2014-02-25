@@ -198,10 +198,15 @@ class TestPillboxr < MiniTest::Unit::TestCase
 
   def test_empty_record_set_response_caught
     VCR.use_cassette(:empty_record_set) do
+      no_records_response = Pillboxr.config.no_records_response
+      Pillboxr.config.no_records_response = "foo"
+      no_records_error_message = Pillboxr.config.no_records_error_message
+      Pillboxr.config.no_records_error_message = "bar"
       assert_raises(MultiXml::ParseError) do
         @result = Pillboxr.with(:color => [:blue,:green], :size => 100)
       end
-      assert_equal(0, @result.record_count)
+      Pillboxr.config.no_records_error_message = no_records_error_message
+      Pillboxr.config.no_records_response = no_records_response
     end
   end
 end

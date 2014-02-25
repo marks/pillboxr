@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 
+require_relative 'pillboxr/config'
 require_relative 'pillboxr/extensions'
 require_relative 'pillboxr/result'
 require_relative 'pillboxr/pill'
@@ -7,7 +8,6 @@ require_relative 'pillboxr/params'
 require_relative 'pillboxr/request'
 
 module Pillboxr
-
   # Assign an api_key to this session.  Delegates to Request#api_key=
   # @param [String, Pathname, File, Object] the key itself, or a way to load the key, or an object that responds to the 'key' method.
   def api_key=(arg)

@@ -15,7 +15,7 @@ module Pillboxr
     # @param [Hash] options for which page to fetch
     def get(options = {}, &block)
       if options[:page]
-        self << Pillboxr::Attributes::Lowerlimit.new(options.fetch(:page) * RECORDS_PER_PAGE)
+        self << Pillboxr::Attributes::Lowerlimit.new(options.fetch(:page) * Pillboxr.config.records_per_page)
       end
       @module_name.send(:complete, self, &block)
     end
@@ -25,7 +25,7 @@ module Pillboxr
         limit = self.select { |param| param.respond_to?(:lower_limit) }.first.lower_limit
         return limit
       else
-        return DEFAULT_LOWER_LIMIT
+        return Pillboxr.config.default_lower_limit
       end
     end
 
