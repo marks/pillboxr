@@ -6,18 +6,18 @@ module Pillboxr
   class Request
     include HTTParty
     format :xml
-    base_uri BASE_URI
+    base_uri Pillboxr.config.base_uri
     parser(Class.new(HTTParty::Parser) do
             def parse
               begin
                 body.gsub!(/^<disclaimer>.+<\/disclaimer>/, "")
-                body.gsub!(/\s\&\s/, ' and ')
+                body.gsub!(/\&/, '&amp;')
                 super
               rescue MultiXml::ParseError => e
-                if e.message == NO_RECORDS_ERROR_MESSAGE or body == NO_RECORDS_RESPONSE
+                if e.message == Pillboxr.config.no_records_error_message or body == Pillboxr.config.no_records_response
                   result = {'Pills' => {'pill' => [], 'record_count' => 0 }}
                   return result
-                elsif e.message == API_KEY_ERROR_MESSAGE
+                elsif e.message == Pillboxr.config.api_key_error_message
                   raise "Invalid api_key. Check format and try again."
                 else
                   raise

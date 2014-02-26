@@ -18,7 +18,7 @@ class TestParams < MiniTest::Unit::TestCase
   end
 
   def test_limit_method
-    assert_equal(Pillboxr::DEFAULT_LOWER_LIMIT, @params.limit)
+    assert_equal(Pillboxr.config.default_lower_limit, @params.limit)
     @params << Pillboxr::Attributes::Lowerlimit.new(300)
     assert_equal(300, @params.limit)
   end
